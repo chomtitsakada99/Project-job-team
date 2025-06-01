@@ -1,0 +1,40 @@
+//2020-07-08 17:30
+var ADBADDomain = 'ambientdsp.com';
+var ADBADProt = (document.location.protocol == 'https:') ? 'https://' : 'http://';
+var ADBADVideo = ADBADProt + 'metrics.' + ADBADDomain + '/track/vm?';
+var ADBADInteraction = ADBADProt + 'metrics.' + ADBADDomain + '/track/interaction?';
+
+// CClass init
+(function(){CClass=function(){};CClass.create=function(constructor){var k=this;c=function(){this._super=k;var pubs=constructor.apply(this,arguments),self=this;for(key in pubs)(function(fn,sfn){self[key]=typeof fn!="function"||typeof sfn!="function"?fn:function(){this._super=sfn;return fn.apply(this,arguments)}})(pubs[key],self[key])};c.prototype=new this;c.prototype.constructor=c;c.extend=this.extend||this.create;return c}})();
+
+var AdbAdTracking = CClass.create(function(){
+	var execi = function(s){
+		var abdi = new Image();
+		abdi.src = s;
+	};
+	var randS = function(){
+		return Math.random().toString(36).replace(/[^a-z0-9]+/g, '').substr(2, 10);
+	}	
+	return {
+		VideoMetric: function(obj){
+			var trackVar = '';
+			for(x in obj){
+				trackVar+= x + '=' + obj[x] + '&';
+			}
+			link = ADBADVideo + trackVar + 'rnd=' + randS() + '/';
+			return execi(link);
+		},
+		Link: function(link){
+			return execi(link);
+		},
+		Interaction: function(obj){
+			var trackVar = '';
+			for(x in obj){
+				trackVar+= x + '=' + obj[x] + '&';
+			}
+			link = ADBADInteraction + trackVar + 'rnd=' + randS() + '/';
+			return execi(link);
+		}
+	};
+});
+adbAdTracking = new AdbAdTracking();
